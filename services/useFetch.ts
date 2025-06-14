@@ -10,7 +10,6 @@ const useFetch = <T>(fetchFunc : () => Promise<T>, authFetch = true) => {
         try {
             setLoading(true)
             setError(null);
-            
             const result = await fetchFunc();
             setData(result);
         } catch (error) {
@@ -31,7 +30,7 @@ const useFetch = <T>(fetchFunc : () => Promise<T>, authFetch = true) => {
         }
    }, [])
 
-   return {data, loading, error, refetch:fetchData, reset}
+   return {data, loading, error, refetch: fetchData, reset}
 }
 
 export default useFetch;
