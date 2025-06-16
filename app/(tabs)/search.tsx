@@ -21,18 +21,20 @@ export default function Search () {
   } = useFetch(() => fetchMovies({ query: searchQuery }), false);
 
   useEffect( ()=>{
-    updateSearchCount(searchQuery, movies?.[0])
-
-    const timeoutId =  setTimeout(async () => {if( searchQuery.trim()) {
-      await fetchMoviesData();
-    }else{
+    
+    const timeoutId =  setTimeout(async () => {
+      if( searchQuery.trim()) {
+        await fetchMoviesData();
+        if(movies.length > 0 && movies[0])      updateSearchCount(searchQuery, movies[0])
+    } else {
       reset();
-    }}, 500)
+    }
+  }, 500)
 
     return () => clearTimeout(timeoutId);
 
   }, [fetchMoviesData, movies, reset, searchQuery])
-
+  
   return (
     <View className="flex-1 bg-primary">
       <Image
