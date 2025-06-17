@@ -1,5 +1,6 @@
 import MovieCard from "@/components/MovieCard";
 import SearchBar from "@/components/SearchBar";
+import TrendingCard from "@/components/TrendingCard";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
@@ -29,14 +30,16 @@ export default function Index() {
         contentContainerClassName="min-h-full pb-[10px]"
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
-        {moviesLoading || trendingLoading ?  (
+        {moviesLoading || trendingLoading ? (
           <ActivityIndicator
             size="large"
             color="#0000ff"
             className="mt-10 self-center"
           />
         ) : moviesError || trendingError ? (
-          <Text className="text-white">Error: {moviesError?.message || trendingError?.message}</Text>
+          <Text className="text-white">
+            Error: {moviesError?.message || trendingError?.message}
+          </Text>
         ) : (
           <View className="flex-1 mt-5">
             <SearchBar
@@ -45,7 +48,18 @@ export default function Index() {
             />
             {trendingMovies && trendingMovies.length > 0 && (
               <View className="mt-10">
-                <Text>Trending Movies</Text>
+                <Text className="text-white text-lg font-bold mb-3">
+                  Trending Movies
+                </Text>
+                <FlatList
+                  data={trendingMovies}
+                  keyExtractor={(item) => item.movie_id.toString()}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  ItemSeparatorComponent={() => <View className="w-4" />}
+                  className="pb-4"
+                  renderItem={({ item, index }) => <TrendingCard {...item} index={index} />}
+                />
               </View>
             )}
             <>
